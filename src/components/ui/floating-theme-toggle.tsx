@@ -7,6 +7,24 @@ import { useTheme, DarkMode, ColorTheme } from "@/components/ui/theme-provider"
 import { useState } from "react"
 import { useLocale, useTranslations } from "next-intl"
 import { setCookie } from "cookies-next"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { cn } from "@/lib/utils"
+
+// Color theme configurations
+const colorThemes = [
+  { id: "default", name: "Default", color: "#6b7280" },
+  { id: "blue", name: "Blue", color: "#3b82f6" },
+  { id: "green", name: "Green", color: "#22c55e" },
+  { id: "purple", name: "Purple", color: "#a855f7" },
+  { id: "orange", name: "Orange", color: "#f97316" },
+]
+
+// Dark mode configurations  
+const darkModes = [
+  { id: "light", name: "Light", icon: Sun },
+  { id: "dark", name: "Dark", icon: Moon },
+  { id: "system", name: "System", icon: Settings },
+]
 
 // Language configurations (matching available translation files)
 const languages = [
@@ -24,22 +42,7 @@ export function FloatingThemeToggle() {
   const locale = useLocale() // Get current locale from next-intl
   const [isOpen, setIsOpen] = useState(false)
   const [currentView, setCurrentView] = useState<View>("main")
-  
-  // Color theme configurations
-  const colorThemes = [
-    { id: "default", name: t('themes.default'), color: "#6b7280" },
-    { id: "blue", name: t('themes.blue'), color: "#3b82f6" },
-    { id: "green", name: t('themes.green'), color: "#22c55e" },
-    { id: "purple", name: t('themes.purple'), color: "#a855f7" },
-    { id: "orange", name: t('themes.orange'), color: "#f97316" },
-  ]
-
-  // Dark mode configurations  
-  const darkModes = [
-    { id: "light", name: t('modes.light'), icon: Sun },
-    { id: "dark", name: t('modes.dark'), icon: Moon },
-    { id: "system", name: t('modes.system'), icon: Settings },
-  ]
+  const isMobile = useIsMobile();
 
   // Handle language change with next-intl
   const handleLanguageChange = (languageCode: string) => {
@@ -79,7 +82,7 @@ export function FloatingThemeToggle() {
   return (
     <>
       {/* Floating Button */}
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className={cn("fixed bottom-6 right-6 z-50", isMobile ? "bottom-24" : "bottom-6 right-6")}>
         <Button 
           onClick={() => setIsOpen(true)}
           size="icon" 
