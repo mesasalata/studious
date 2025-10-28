@@ -1162,6 +1162,169 @@
         "success": "Announcement Created",
         "errorRequired": "Please fill in all required fields."
       }
+    },
+    "createSection": {
+      "titleCreate": "Create New Section",
+      "titleEdit": "Edit Section",
+      "buttonLabel": "New Section",
+      "fields": {
+        "name": "Section Name *",
+        "color": "Section Color"
+      },
+      "placeholders": {
+        "name": "e.g., Term 1, Unit 2, Chapter 5"
+      },
+      "help": "Sections help organize assignments into groups or time periods.",
+      "actions": {
+        "cancel": "Cancel",
+        "create": "Create Section",
+        "update": "Update Section",
+        "creating": "Creating...",
+        "updating": "Updating..."
+      },
+      "toasts": {
+        "created": "Section \"{name}\" created successfully.",
+        "updated": "Section \"{name}\" updated successfully.",
+        "errorCreate": "Failed to create section",
+        "errorUpdate": "Failed to update section",
+        "errorEmpty": "Please enter a section name."
+      }
+    },
+    "aiLab": {
+      "titlePrefix": "Create",
+      "badge": "AI Powered",
+      "description": "Provide some basic information to help our AI create better content for you.",
+      "fields": {
+        "title": "Title *",
+        "subject": "Subject *",
+        "gradeLevel": "Grade Level *",
+        "description": "Description",
+        "requirements": "Special Requirements",
+        "duration": "Duration (Optional)"
+      },
+      "placeholders": {
+        "title": "e.g., Introduction to Photosynthesis",
+        "subject": "e.g., Biology, Mathematics",
+        "gradeLevel": "Select grade level",
+        "description": "Describe what this {type} should cover...",
+        "requirements": "Any specific requirements, learning objectives, or constraints...",
+        "duration": "e.g., 45 minutes, 1 week"
+      },
+      "gradeLevels": {
+        "k2": "K-2",
+        "35": "3-5",
+        "68": "6-8",
+        "912": "9-12",
+        "college": "College"
+      },
+      "subjects": {
+        "mathematics": "Mathematics",
+        "science": "Science",
+        "english": "English",
+        "history": "History",
+        "geography": "Geography",
+        "chemistry": "Chemistry",
+        "physics": "Physics",
+        "biology": "Biology",
+        "computerScience": "Computer Science",
+        "other": "Other"
+      },
+      "durations": {
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "45min": "45 minutes",
+        "1hour": "1 hour",
+        "90min": "90 minutes",
+        "2hours": "2 hours"
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "create": "Create AI Lab",
+        "creating": "Creating Lab..."
+      }
+    }
+  },
+  "ui": {
+    "classSidebar": {
+      "nav": {
+        "overview": "Overview",
+        "assignments": "Assignments",
+        "grades": "Grades",
+        "files": "Files",
+        "attendance": "Attendance",
+        "aiLabs": "AI Labs",
+        "members": "Members",
+        "syllabus": "Syllabus",
+        "settings": "Settings"
+      },
+      "inviteCode": {
+        "label": "Invite Code",
+        "copy": "Copy",
+        "regenerate": "Regenerate",
+        "copied": "Invite code copied to clipboard",
+        "regenerated": "Invite code regenerated successfully",
+        "errorRegenerate": "Failed to regenerate invite code"
+      },
+      "classSelector": {
+        "placeholder": "Select a class"
+      }
+    },
+    "colorPicker": {
+      "label": "Theme Color",
+      "custom": "Custom Color",
+      "selectColor": "Select a color or create your own",
+      "colors": {
+        "blue": "Blue",
+        "green": "Green",
+        "purple": "Purple",
+        "pink": "Pink",
+        "orange": "Orange",
+        "teal": "Teal",
+        "red": "Red",
+        "yellow": "Yellow",
+        "indigo": "Indigo",
+        "gray": "Gray",
+        "emerald": "Emerald",
+        "rose": "Rose"
+      },
+      "descriptions": {
+        "blue": "Professional and trustworthy",
+        "green": "Growth and success",
+        "purple": "Creative and innovative",
+        "pink": "Energetic and playful",
+        "orange": "Warm and enthusiastic",
+        "teal": "Calm and balanced",
+        "red": "Bold and attention-grabbing",
+        "yellow": "Optimistic and cheerful",
+        "indigo": "Deep and sophisticated",
+        "gray": "Neutral and professional",
+        "emerald": "Natural and fresh",
+        "rose": "Passionate and dynamic"
+      }
+    },
+    "dataTable": {
+      "searchPlaceholder": "Search...",
+      "columns": "Columns",
+      "noResults": "No results."
+    },
+    "themeToggle": {
+      "settings": "Settings",
+      "darkMode": "Dark Mode",
+      "colorTheme": "Color Theme",
+      "language": "Language",
+      "theme": "Theme",
+      "modes": {
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+      },
+      "themes": {
+        "default": "Default",
+        "blue": "Blue",
+        "green": "Green",
+        "purple": "Purple",
+        "orange": "Orange"
+      }
     }
   }
 }

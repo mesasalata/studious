@@ -30,24 +30,26 @@ import { toast } from "sonner";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { RouterOutputs, trpc } from "@/lib/trpc";
-
-const classNavigationItems = [
-  { href: "", label: "Overview", icon: BookOpen },
-  { href: "/assignments", label: "Assignments", icon: FileText },
-  { href: "/grades", label: "Grades", icon: BarChart3 },
-  { href: "/files", label: "Files", icon: FolderOpen },
-  { href: "/attendance", label: "Attendance", icon: UserCheck },
-  { href: "/ai-labs", label: "AI Labs", icon: Sparkles },
-  { href: "/members", label: "Members", icon: Users },
-  { href: "/syllabus", label: "Syllabus", icon: FileCheck },
-  { href: "/settings", label: "Settings", icon: Settings },
-];
+import { useTranslations } from "next-intl";
 
 interface ClassSidebarProps {
   classId: string;
 }
 
 export function ClassSidebar({ classId }: ClassSidebarProps) {
+  const t = useTranslations('ui.classSidebar');
+  
+  const classNavigationItems = [
+    { href: "", label: t('nav.overview'), icon: BookOpen },
+    { href: "/assignments", label: t('nav.assignments'), icon: FileText },
+    { href: "/grades", label: t('nav.grades'), icon: BarChart3 },
+    { href: "/files", label: t('nav.files'), icon: FolderOpen },
+    { href: "/attendance", label: t('nav.attendance'), icon: UserCheck },
+    { href: "/ai-labs", label: t('nav.aiLabs'), icon: Sparkles },
+    { href: "/members", label: t('nav.members'), icon: Users },
+    { href: "/syllabus", label: t('nav.syllabus'), icon: FileCheck },
+    { href: "/settings", label: t('nav.settings'), icon: Settings },
+  ];
   const pathname = usePathname();
   const router = useRouter();
 
@@ -61,11 +63,11 @@ export function ClassSidebar({ classId }: ClassSidebarProps) {
   const className = classData?.class;
   const regenerateInviteCodeMutation = trpc.class.createInviteCode.useMutation({
     onSuccess: () => {
-      toast.success("Invite code regenerated successfully");
+      toast.success(t('inviteCode.regenerated'));
       refetchInviteCode();
     },
     onError: () => {
-      toast.error("Failed to regenerate invite code");
+      toast.error(t('inviteCode.errorRegenerate'));
     }
   });
 
@@ -93,7 +95,7 @@ export function ClassSidebar({ classId }: ClassSidebarProps) {
 
   const handleCopyInviteCode = () => {
     navigator.clipboard.writeText(inviteCode!);
-    toast.success("Invite code copied to clipboard");
+    toast.success(t('inviteCode.copied'));
   };
 
   return (
@@ -181,14 +183,14 @@ export function ClassSidebar({ classId }: ClassSidebarProps) {
       {/* Class Invite Code */}
       {appState.user.teacher && <div className="p-4 border-t mt-auto">
         <div className="space-y-2">
-          <label className="text-xs font-medium text-muted-foreground">Class Invite Code</label>
+          <label className="text-xs font-medium text-muted-foreground">{t('inviteCode.label')}</label>
           <div className="flex items-center justify-between p-2 bg-muted rounded-md hover:bg-muted/60 transition-colors duration-200">
             <code className="text-sm font-mono">{inviteCode}</code>
             <div className="flex space-x-1">
-              <Button onClick={handleCopyInviteCode} variant="ghost" size="sm" className="h-6 w-6 p-0 hover:scale-110 transition-transform duration-200" title="Copy code">
+              <Button onClick={handleCopyInviteCode} variant="ghost" size="sm" className="h-6 w-6 p-0 hover:scale-110 transition-transform duration-200" title={t('inviteCode.copy')}>
                 <Copy className="h-3 w-3" />
               </Button>
-              <Button onClick={handleRegenerateInviteCode} variant="ghost" size="sm" className="h-6 w-6 p-0 hover:scale-110 transition-transform duration-200" title="Regenerate code">
+              <Button onClick={handleRegenerateInviteCode} variant="ghost" size="sm" className="h-6 w-6 p-0 hover:scale-110 transition-transform duration-200" title={t('inviteCode.regenerate')}>
                 <RefreshCcw className="h-3 w-3" />
               </Button>
             </div>

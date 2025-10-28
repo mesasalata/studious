@@ -5,24 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { useTheme, DarkMode, ColorTheme } from "@/components/ui/theme-provider"
 import { useState } from "react"
-import { useLocale } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { setCookie } from "cookies-next"
-
-// Color theme configurations
-const colorThemes = [
-  { id: "default", name: "Default", color: "#6b7280" },
-  { id: "blue", name: "Blue", color: "#3b82f6" },
-  { id: "green", name: "Green", color: "#22c55e" },
-  { id: "purple", name: "Purple", color: "#a855f7" },
-  { id: "orange", name: "Orange", color: "#f97316" },
-]
-
-// Dark mode configurations  
-const darkModes = [
-  { id: "light", name: "Light", icon: Sun },
-  { id: "dark", name: "Dark", icon: Moon },
-  { id: "system", name: "System", icon: Settings },
-]
 
 // Language configurations (matching available translation files)
 const languages = [
@@ -35,10 +19,27 @@ const languages = [
 type View = "main" | "themes" | "languages"
 
 export function FloatingThemeToggle() {
+  const t = useTranslations('ui.themeToggle');
   const { darkMode, colorTheme, setDarkMode, setColorTheme } = useTheme()
   const locale = useLocale() // Get current locale from next-intl
   const [isOpen, setIsOpen] = useState(false)
   const [currentView, setCurrentView] = useState<View>("main")
+  
+  // Color theme configurations
+  const colorThemes = [
+    { id: "default", name: t('themes.default'), color: "#6b7280" },
+    { id: "blue", name: t('themes.blue'), color: "#3b82f6" },
+    { id: "green", name: t('themes.green'), color: "#22c55e" },
+    { id: "purple", name: t('themes.purple'), color: "#a855f7" },
+    { id: "orange", name: t('themes.orange'), color: "#f97316" },
+  ]
+
+  // Dark mode configurations  
+  const darkModes = [
+    { id: "light", name: t('modes.light'), icon: Sun },
+    { id: "dark", name: t('modes.dark'), icon: Moon },
+    { id: "system", name: t('modes.system'), icon: Settings },
+  ]
 
   // Handle language change with next-intl
   const handleLanguageChange = (languageCode: string) => {
@@ -114,8 +115,8 @@ export function FloatingThemeToggle() {
                 )}
                 <Settings className="h-4 w-4" />
                 <h3 className="font-medium text-sm">
-                  {currentView === "main" ? "Settings" : 
-                   currentView === "themes" ? "Theme" : "Language"}
+                  {currentView === "main" ? t('settings') : 
+                   currentView === "themes" ? t('theme') : t('language')}
                 </h3>
               </div>
             </div>
@@ -129,7 +130,7 @@ export function FloatingThemeToggle() {
                     <div className="flex items-center justify-between mb-2 p-3">
                       <div className="flex items-center gap-2 w-full">
                         {darkMode === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-                        <span className="font-medium text-sm">Dark Mode</span>
+                        <span className="font-medium text-sm">{t('darkMode')}</span>
                       </div>
                       <Switch
                         checked={darkMode === "dark"}
@@ -142,7 +143,7 @@ export function FloatingThemeToggle() {
                     >
                       <Palette className="h-4 w-4 mr-3" />
                       <div className="flex-1 text-left">
-                        <div className="font-medium text-sm">Color Theme</div>
+                        <div className="font-medium text-sm">{t('colorTheme')}</div>
                         <div className="text-xs text-muted-foreground flex items-center gap-2">
                           <div 
                             className="w-2 h-2 rounded-full border" 
@@ -160,7 +161,7 @@ export function FloatingThemeToggle() {
                   >
                     <Globe className="h-4 w-4 mr-3" />
                     <div className="flex-1 text-left">
-                      <div className="font-medium text-sm">Language</div>
+                      <div className="font-medium text-sm">{t('language')}</div>
                       <div className="text-xs text-muted-foreground flex items-center gap-2">
                         <span>{currentLang.flag}</span>
                         {currentLang.name}

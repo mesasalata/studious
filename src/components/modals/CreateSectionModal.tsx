@@ -9,6 +9,7 @@ import { Folder, Plus } from "lucide-react";
 import { trpc, type RouterOutputs } from "@/lib/trpc";
 import ColorPicker from "@/components/ui/color-picker";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 type SectionFormData = RouterOutputs['section']['create'] | RouterOutputs['section']['update'];
 
@@ -31,6 +32,7 @@ export function SectionModal({
   onSectionCreated, 
   onSectionUpdated 
 }: SectionModalProps) {
+  const t = useTranslations('components.createSection');
   const [internalOpen, setInternalOpen] = useState(false);
   const [sectionName, setSectionName] = useState(section?.name || "");
   const [sectionColor, setSectionColor] = useState(section?.color || '#3b82f6');
@@ -55,25 +57,25 @@ export function SectionModal({
 
   const createSectionMutation = trpc.section.create.useMutation({
     onSuccess: (data) => {
-      toast.success(`Section "${data.name}" created successfully.`);
+      toast.success(t('toasts.created', { name: data.name }));
       onSectionCreated?.(data as SectionFormData);
       setOpen(false);
       resetForm();
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to create section");
+      toast.error(error.message || t('toasts.errorCreate'));
     }
   });
 
   const updateSectionMutation = trpc.section.update.useMutation({
     onSuccess: (data) => {
-      toast.success(`Section "${data.name}" updated successfully.`);
+      toast.success(t('toasts.updated', { name: data.name }));
       onSectionUpdated?.(data as SectionFormData);
       setOpen(false);
       resetForm();
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to update section");
+      toast.error(error.message || t('toasts.errorUpdate'));
     }
   });
 
@@ -86,7 +88,7 @@ export function SectionModal({
     e.preventDefault();
     
     if (!sectionName.trim()) {
-      toast.error("Please enter a section name.");
+      toast.error(t('toasts.errorEmpty'));
       return;
     }
 
@@ -120,7 +122,7 @@ export function SectionModal({
             {children || (
               <Button variant="outline">
                 <Plus className="h-4 w-4 mr-2" />
-                New Section
+                {t('buttonLabel')}
               </Button>
             )}
           </DialogTrigger>
@@ -129,23 +131,23 @@ export function SectionModal({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Folder className="h-5 w-5" />
-            {isEditMode ? 'Edit Section' : 'Create New Section'}
+            {isEditMode ? t('titleEdit') : t('titleCreate')}
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="sectionName">Section Name *</Label>
+            <Label htmlFor="sectionName">{t('fields.name')}</Label>
             <Input
               id="sectionName"
               value={sectionName}
               onChange={(e) => setSectionName(e.target.value)}
-              placeholder="e.g., Term 1, Unit 2, Chapter 5"
+              placeholder={t('placeholders.name')}
               autoFocus
               required
             />
             <p className="text-xs text-muted-foreground">
-              Sections help organize assignments into groups or time periods.
+              {t('help')}
             </p>
           </div>
 
@@ -153,7 +155,7 @@ export function SectionModal({
             <ColorPicker
               value={sectionColor}
               onChange={setSectionColor}
-              label="Section Color"
+              label={t('fields.color')}
             />
           </div>
 
@@ -164,7 +166,7 @@ export function SectionModal({
               onClick={() => handleOpenChange(false)}
               disabled={createSectionMutation.isPending || updateSectionMutation.isPending}
             >
-              Cancel
+              {t('actions.cancel')}
             </Button>
             <Button
               type="submit"
@@ -173,12 +175,12 @@ export function SectionModal({
               {(createSectionMutation.isPending || updateSectionMutation.isPending) ? (
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  {isEditMode ? 'Updating...' : 'Creating...'}
+                  {isEditMode ? t('actions.updating') : t('actions.creating')}
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
                   <Folder className="h-4 w-4" />
-                  {isEditMode ? 'Update Section' : 'Create Section'}
+                  {isEditMode ? t('actions.update') : t('actions.create')}
                 </div>
               )}
             </Button>

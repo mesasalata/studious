@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Check, Palette, Eye } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export interface ColorOption {
   name: string;
@@ -21,32 +22,36 @@ interface ColorPickerProps {
   disabled?: boolean;
 }
 
-const DEFAULT_COLORS: ColorOption[] = [
-  { name: 'Blue', value: '#3B82F6', description: 'Professional and trustworthy' },
-  { name: 'Green', value: '#10B981', description: 'Growth and success' },
-  { name: 'Purple', value: '#8B5CF6', description: 'Creative and innovative' },
-  { name: 'Pink', value: '#EC4899', description: 'Energetic and playful' },
-  { name: 'Orange', value: '#F97316', description: 'Warm and enthusiastic' },
-  { name: 'Teal', value: '#14B8A6', description: 'Calm and balanced' },
-  { name: 'Red', value: '#EF4444', description: 'Bold and attention-grabbing' },
-  { name: 'Yellow', value: '#EAB308', description: 'Optimistic and cheerful' },
-  { name: 'Indigo', value: '#6366F1', description: 'Deep and sophisticated' },
-  { name: 'Gray', value: '#6B7280', description: 'Neutral and professional' },
-  { name: 'Emerald', value: '#059669', description: 'Natural and fresh' },
-  { name: 'Rose', value: '#E11D48', description: 'Passionate and dynamic' },
-];
-
 export default function ColorPicker({
   value,
   onChange,
-  options = DEFAULT_COLORS,
-  label = 'Theme Color',
+  options,
+  label,
   description,
   size = 'md',
   showCustomPicker = true,
   className = '',
   disabled = false
 }: ColorPickerProps) {
+  const t = useTranslations('ui.colorPicker');
+  
+  const DEFAULT_COLORS: ColorOption[] = [
+    { name: t('colors.blue'), value: '#3B82F6', description: t('descriptions.blue') },
+    { name: t('colors.green'), value: '#10B981', description: t('descriptions.green') },
+    { name: t('colors.purple'), value: '#8B5CF6', description: t('descriptions.purple') },
+    { name: t('colors.pink'), value: '#EC4899', description: t('descriptions.pink') },
+    { name: t('colors.orange'), value: '#F97316', description: t('descriptions.orange') },
+    { name: t('colors.teal'), value: '#14B8A6', description: t('descriptions.teal') },
+    { name: t('colors.red'), value: '#EF4444', description: t('descriptions.red') },
+    { name: t('colors.yellow'), value: '#EAB308', description: t('descriptions.yellow') },
+    { name: t('colors.indigo'), value: '#6366F1', description: t('descriptions.indigo') },
+    { name: t('colors.gray'), value: '#6B7280', description: t('descriptions.gray') },
+    { name: t('colors.emerald'), value: '#059669', description: t('descriptions.emerald') },
+    { name: t('colors.rose'), value: '#E11D48', description: t('descriptions.rose') },
+  ];
+  
+  const colorOptions = options || DEFAULT_COLORS;
+  const colorLabel = label || t('label');
   const [isCustomPickerOpen, setIsCustomPickerOpen] = useState(false);
   const [customColor, setCustomColor] = useState(value || '#3B82F6');
   const customPickerRef = useRef<HTMLInputElement>(null);
@@ -93,10 +98,10 @@ export default function ColorPicker({
 
   return (
     <div className={`space-y-3 ${className}`}>
-      {label && (
+      {colorLabel && (
         <div className="space-y-1">
           <label className="text-sm font-medium text-foreground">
-            {label}
+            {colorLabel}
           </label>
           {description && (
             <p className="text-xs text-muted-foreground">
@@ -109,7 +114,7 @@ export default function ColorPicker({
       <div className="space-y-3">
         {/* Preset Colors */}
         <div className="flex flex-wrap gap-2">
-          {options.map((color) => (
+          {colorOptions.map((color) => (
             <button
               type="button"
               key={color.value}
@@ -168,7 +173,7 @@ export default function ColorPicker({
             
             <div className="flex flex-col">
               <span className="text-xs font-medium text-foreground">
-                Custom Color
+                {t('custom')}
               </span>
               <span className="text-xs text-muted-foreground font-mono">
                 {customColor.toUpperCase()}
@@ -182,7 +187,7 @@ export default function ColorPicker({
           <div className="flex items-center space-x-2 pt-2 border-t border-border">
             <Palette className="w-4 h-4 text-muted-foreground" />
             <span className="text-xs text-muted-foreground">
-              Selected: <span className="font-medium">{options.find(c => c.value === value)?.name || 'Custom'}</span>
+              Selected: <span className="font-medium">{colorOptions.find(c => c.value === value)?.name || t('custom')}</span>
             </span>
             <div 
               className="w-3 h-3 rounded-full border border-border"
